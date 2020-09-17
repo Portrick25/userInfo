@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase.js"></script>
+</head>
+<style>
+#mycart{
+    border: solid 1px;
+    padding: 1em;
+}
+h3{
+    text-align: center;
+    color: blue;
+}
+table{
+    width: 98vw;
+    margin: auto;
+}
+thead{
+    border: solid black 1px;
+}
+td{
+    width: auto;
+}
+</style>
+<body>
+    <div id="data">
+       <h3>Moradabad OPD</h3>
+</div>
+
+    <div id="teleconsult">
+        <h3>Homeopathic TeleConsultation</h3>
+    </div>
+    <div id="offline">
+        <h3>Offline Appointment</h3>
+    </div>
+    <div id="doorstep">
+        <h3>Doctor At Home</h3>
+    </div>
+</body>
+<script>
+            // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyB2MAuoYNwlnfE7D3DUFF0ksTq52inDdmY",
+          authDomain: "samchikitsa-8ae9a.firebaseapp.com",
+          databaseURL: "https://samchikitsa-8ae9a.firebaseio.com",
+          projectId: "samchikitsa-8ae9a",
+          storageBucket: "samchikitsa-8ae9a.appspot.com",
+          messagingSenderId: "151461880341",
+          appId: "1:151461880341:web:3a6fbdaa6d75229d9ee41c",
+          measurementId: "G-XGTMGR77Z4"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+      
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        document.cookie = 'cross-site-cookie=bar; SameSite=None and Secure';
+   
+
+          
+        db.collection('ATMoradabad').get().then((snapshot) =>{
+            var Totalamount = 0;
+        snapshot.docs.forEach(doc => {
+            var mobile = doc.data().Mobile;
+            var gender = doc.data().Gender;
+            var opd = doc.data().OPD;
+            var time = doc.data().time;
+            var age = doc.data().age;
+            var amount = 499;
+            var Pname = doc.data().PatientName;
+            var date = doc.data().date;
+            document.getElementById("data").innerHTML +="<div id='mycart'><table><thead><td>OPD Name</td><td>Patient Name</td><td>Mobile</td><td>Age</td><td>Gender</td><td>Date</td><td>Time</td></thead><tr><td>"+opd+"</td><td>"+Pname+"</td><td>"+mobile+"</td><td>"+age+"</td><td>"+gender+"</td><td>"+date+"</td><td>"+time+"</td></tr></table>    </div>"
+            
+
+        
+        })
+            
+
+
+    });
+
+
+
+    db.collection('teleConsult').get().then((snapshot) =>{
+            var Totalamount = 0;
+        snapshot.docs.forEach(doc => {
+            var mobile = doc.data().Mobile;
+            var mode = doc.data().Mode;
+            var Pname = doc.data().PatientName;
+            var platform = doc.data().Platform;
+            var date = doc.data().date;
+            var time = doc.data().time;
+            
+            if(mode == "chat"){
+                var amount = 129;
+            }else if(mode == "call"){
+                var amount = 199;
+            }else if(mode == "video"){
+                var amount = 299;
+            }
+            
+            document.getElementById("teleconsult").innerHTML +="<div id='mycart'><table><thead><td>Patient Name</td><td>Mobile</td><td>Mode</td><td>Platform</td><td>Date</td><td>Time</td></thead><tr><td>"+Pname+"</td><td>"+mobile+"</td><td>"+mode+"</td><td>"+platform+"</td><td>"+date+"</td><td>"+time+"</td></tr></table></div>"
+            
+
+        
+        })
+            
+
+
+    });
+
+              
+           
+    db.collection('offlineappointments').get().then((snapshot) =>{
+            var Totalamount = 0;
+        snapshot.docs.forEach(doc => {
+            var mobile = doc.data().Mobile;
+            var gender = doc.data().Gender;
+            var opd = doc.data().OPD;
+            var time = doc.data().time;
+            var clinic = doc.data().clinic
+            var city = doc.data().City;
+            var age = doc.data().age;
+            var amount = 499;
+            var Pname = doc.data().PatientName;
+            var date = doc.data().date;
+            document.getElementById("offline").innerHTML +="<div id='mycart'><table><thead><td>OPD Name</td><td>City</td><td>Patient Name</td><td>Mobile</td><td>Age</td><td>Gender</td><td>Date</td><td>Time</td></thead><tr><td>"+clinic+"</td><td>"+city+"</td><td>"+Pname+"</td><td>"+mobile+"</td><td>"+age+"</td><td>"+gender+"</td><td>"+date+"</td><td>"+time+"</td></tr></table>    </div>"
+            
+
+        
+        })
+            
+
+
+    });
+
+
+    db.collection('atHome').get().then((snapshot) =>{
+            var Totalamount = 0;
+        snapshot.docs.forEach(doc => {
+            var mobile = doc.data().Mobile;
+            var gender = doc.data().Gender;
+            var age = doc.data().age;
+            
+            var address = doc.data().address;
+            var city= doc.data().City;
+            var pincode = doc.data().pincode;
+            var landmark = doc.data().landmark;
+            var amount = 499;
+            var Pname = doc.data().PatientName;
+            var date = doc.data().date;
+            document.getElementById("doorstep").innerHTML +="<div id='mycart'><table><thead><td>City</td><td>Patient Name</td><td>Mobile</td><td>Age</td><td>Gender</td><td>Address</td><td>Pincode</td><td>Landmark</td><td>Date</td></thead><tr><td>"+city+"</td><td>"+Pname+"</td><td>"+mobile+"</td><td>"+age+"</td><td>"+gender+"</td><td>"+address+"</td><td>"+pincode+"</td><td>"+landmark+"</td><td>"+date+"</td></tr></table>    </div>"
+            
+
+        
+        })
+            
+
+
+    });
+
+
+    
+
+</script>
+</html>
